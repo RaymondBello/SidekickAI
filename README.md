@@ -69,6 +69,11 @@ npx prisma db push
 
 ```
 
+## Spin up a local db server
+```shell
+npx prisma studio
+```
+
 ### Start the app
 
 ```shell
