@@ -6,7 +6,7 @@ import prismadb from "@/lib/prismadb";
 import { MAX_FREE_COUNTS } from "@/constants";
 
 export const incrementApiLimit = async () => {
-  const { userId }: { userId: string | null } = authMiddleware();
+  const { userId }: { userId: string | null } = auth();
   // const { userId } = authMiddleware();
 
   if (!userId) {
@@ -30,7 +30,7 @@ export const incrementApiLimit = async () => {
 };
 
 export const checkApiLimit = async () => {
-  const { userId } = authMiddleware();
+  const { userId } = auth();
   // const { userId } = authMiddleware();
 
 
@@ -50,7 +50,7 @@ export const checkApiLimit = async () => {
 };
 
 export const getApiLimitCount = async () => {
-  const { userId } = authMiddleware();
+  const { userId } = auth();
   // const { userId } = authMiddleware();
 
   if (!userId) {
