@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Code } from "lucide-react";
+import { Code2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -68,7 +68,7 @@ const CodePage = () => {
       <Heading
         title="Code Generation"
         description="Generate code using descriptive text."
-        icon={Code}
+        icon={Code2}
         iconColor="text-green-700"
         bgColor="bg-green-700/10"
       />
