@@ -1,6 +1,6 @@
 import { Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
 
-export const MAX_FREE_COUNTS = 5;
+export const MAX_FREE_COUNTS = 30;
 
 export const tools = [
   {
@@ -11,11 +11,11 @@ export const tools = [
     bgColor: "bg-violet-500/10",
   },
   {
-    label: 'Music Generation',
-    icon: Music,
-    href: '/music',
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
+    label: 'Code Generation',
+    icon: Code,
+    color: "text-green-700",
+    bgColor: "bg-green-700/10",
+    href: '/code',
   },
   {
     label: 'Image Generation',
@@ -32,10 +32,11 @@ export const tools = [
     href: '/video',
   },
   {
-    label: 'Code Generation',
-    icon: Code,
-    color: "text-green-700",
-    bgColor: "bg-green-700/10",
-    href: '/code',
+    label: 'Music Generation',
+    icon: Music,
+    href: '/music',
+    color: "text-emerald-500",
+    bgColor: "bg-emerald-500/10",
   },
+  
 ];
