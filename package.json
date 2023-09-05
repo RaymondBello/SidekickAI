@@ -1,5 +1,5 @@
 {
-  "name": "next13-ai-saas",
+  "name": "sidekickai",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -54,6 +54,7 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@types/react-syntax-highlighter": "^15.5.7",
     "prisma": "^5.2.0"
   }
 }

@@ -4,12 +4,13 @@ import * as z from "zod";
 import axios from "axios";
 import { Code2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import ReactMarkdown from "react-markdown";
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialLight, materialDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 import { BotAvatar } from "@/components/bot-avatar";
@@ -18,13 +19,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { Empty } from "@/components/ui/empty";
 import { useProModal } from "@/hooks/use-pro-modal";
 
-import { formSchema } from "./constants";
+import { formSchema, syntaxOptions } from "./constants";
 
 
 const CodePage = () => {
@@ -41,6 +43,17 @@ const CodePage = () => {
   });
 
   const isLoading = form.formState.isSubmitting;
+
+  // Watch the "syntax" field for changes
+  const selectedSyntax = form.watch("syntax", "python");
+
+  // UseEffect to update the SyntaxHighlighter's language
+  useEffect(() => {
+    // Update the SyntaxHighlighter's language whenever "syntax" changes
+    // Without needing to submit the form
+    // You can also add additional logic here if needed
+    console.log(selectedSyntax);
+  }, [selectedSyntax]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -67,7 +80,7 @@ const CodePage = () => {
     <div>
       <Heading
         title="Code Generation"
-        description="Generate code using descriptive text."
+        description="Generate code using descriptive text (use dropdown to select syntax highlighter language)"
         icon={Code2}
         iconColor="text-green-700"
         bgColor="bg-green-700/10"
@@ -93,15 +106,47 @@ const CodePage = () => {
               <FormField
                 name="prompt"
                 render={({ field }) => (
-                  <FormItem className="col-span-12 lg:col-span-10">
+                  <FormItem className="col-span-12 lg:col-span-8 ">
                     <FormControl className="m-0 p-0">
                       <Input
-                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                        className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent "
                         disabled={isLoading}
                         placeholder="Simple toggle button using react hooks."
                         {...field}
                       />
                     </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="syntax"
+                render={({ field }) => (
+                  <FormItem className="col-span-12 lg:col-span-2">
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue
+                            defaultValue={field.value}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {syntaxOptions.map((option) => (
+                          <SelectItem
+                            key={option.value}
+                            value={option.value}
+                          >
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormItem>
                 )}
               />
@@ -126,7 +171,7 @@ const CodePage = () => {
                 key={message.content}
                 className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+                  message.role === "user" ? "bg-muted border border-black/10" : "bg-muted",
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
@@ -137,8 +182,18 @@ const CodePage = () => {
                     </div>
                   ),
                   code: ({ node, ...props }) => (
-                    // <code className="bg-black/10 rounded-lg p-1" {...props} />
-                    <SyntaxHighlighter language={"python"} {...props} />
+                    <code className="bg-black/10 rounded-lg p-1" {...props} />
+
+                    // <SyntaxHighlighter
+                    //   language={selectedSyntax.toString()}
+                    //   wrapLongLine={true}
+                    //   customStyle={{
+                    //     padding: "20px",
+                    //     borderRadius: "8px"
+                    //   }}
+                    //   {...props}
+                    // />
+
                   )
                 }} className="text-sm overflow-hidden leading-7">
                   {message.content || ""}
