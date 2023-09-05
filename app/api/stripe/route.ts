@@ -44,7 +44,7 @@ export async function GET() {
             currency: "USD",
             product_data: {
               name: "SidekickAI Pro",
-              description: "Unlimited AI Generations"
+              description: "Unlimited Generations"
             },
             unit_amount: 2000,
             recurring: {
