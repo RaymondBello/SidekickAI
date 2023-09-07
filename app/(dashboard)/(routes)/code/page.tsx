@@ -23,7 +23,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { cn } from "@/lib/utils";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
-import { Empty } from "@/components/ui/empty";
+// import { Empty } from "@/components/ui/empty";
+import { Code } from "@/components/ui/code";
 import { useProModal } from "@/hooks/use-pro-modal";
 
 import { formSchema, syntaxOptions } from "./constants";
@@ -163,7 +164,7 @@ const CodePage = () => {
             </div>
           )}
           {messages.length === 0 && !isLoading && (
-            <Empty label="No conversation started." />
+            <Code label="No conversation started." />
           )}
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message) => (
